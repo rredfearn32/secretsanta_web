@@ -1,0 +1,10 @@
+// Reference:
+// https://getbootstrap.com/
+// https://getbootstrap.com/docs/4.3/getting-started/theming/
+// https://facebook.github.io/create-react-app/docs/adding-bootstrap
+
+// Override default variables before the import
+$body-bg: #fff;
+
+// Import Bootstrap and its default variables
+@import '~bootstrap/scss/bootstrap.scss';
