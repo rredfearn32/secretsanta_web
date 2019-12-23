@@ -1,3 +1,4 @@
+// You must create the firebaseConfig file 
 import FirebaseConfig from './firebaseConfig';
 
 import * as firebase from "firebase/app";
