@@ -4,21 +4,31 @@ import { Link } from 'react-router-dom';
 import Headlines from '../../components/Headlines';
 import AddHeadline from '../../components/AddHeadline';
 
-import axios from 'axios';
+// import axios from 'axios';
+import FirebaseController from '../../utils/firebaseController';
 
 const Home: React.FC = () => {
     const initialHeadlines:any[] = []
     const [headlines, setHeadlines] = useState(initialHeadlines);
 
     useEffect(() => {
-        axios.get('https://jsonplaceholder.typicode.com/comments?_limit=10')
-            .then(res => {
-                console.log(res);
-                const loadedHeadlines = res.data.map((h:any) => ( {id: h.id, title: h.name, content: h.body, checked: false} ));
-                setHeadlines(loadedHeadlines);
-            });
+        // axios.get('https://jsonplaceholder.typicode.com/comments?_limit=10')
+        //     .then(res => {
+        //         console.log(res);
+        //         const loadedHeadlines = res.data.map((h:any) => ( {id: h.id, title: h.name, content: h.body, checked: false} ));
+        //         setHeadlines(loadedHeadlines);
+        //     });
 
         // Now we're going to start using Firebase...
+        let firebaseController = new FirebaseController();
+        firebaseController.getHeadlines()
+            .then((querySnapshot:any) => {
+                querySnapshot.forEach((doc:any) => {
+                    const data:{title:string, content:string} = doc.data();
+                    setHeadlines([...headlines, {key: doc.key, ...data}])
+                });
+            })
+            .catch((error:any) => console.log(error));
     }, [])
 
     // Toggle complete
