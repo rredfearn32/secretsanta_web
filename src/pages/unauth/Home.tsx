@@ -23,10 +23,11 @@ const Home: React.FC = () => {
         let firebaseController = new FirebaseController();
         firebaseController.getHeadlines()
             .then((querySnapshot:any) => {
+                const newHeadlines:any[] = [];
                 querySnapshot.forEach((doc:any) => {
-                    const data:{title:string, content:string} = doc.data();
-                    setHeadlines([...headlines, {key: doc.key, ...data}])
+                    newHeadlines.push({id: doc.id, title: doc.data().title, content: doc.data().content, checked: false});
                 });
+                setHeadlines([...headlines, ...newHeadlines]);
             })
             .catch((error:any) => console.log(error));
     }, [])
